@@ -1,0 +1,12 @@
+{
+  "APP_ID": "0a03f59c2eac4ee6bd6e5b2afebad986",
+  "ENCRYPTION_ENABLED": true,
+  "ENABLE_GOOGLE_OAUTH": false,
+  "ENABLE_SLACK_OAUTH": false,
+  "ENABLE_MICROSOFT_OAUTH": false,
+  "ENABLE_APPLE_OAUTH": false,
+  "GOOGLE_CLIENT_ID": "",
+  "MICROSOFT_CLIENT_ID": "",
+  "SLACK_CLIENT_ID": "",
+  "APPLE_CLIENT_ID": ""
+}
