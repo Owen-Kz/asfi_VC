@@ -5,24 +5,14 @@ import {useMeetingInfo} from '../meeting-info/useMeetingInfo';
 import events, {EventPersistLevel} from '../../rtm-events-api';
 import {EventNames} from '../../rtm-events';
 import ChatContext from '../ChatContext';
-import {filterObject} from '../../utils';
-import {useRender} from 'customization-api';
-import {ClientRole} from '../../../agora-rn-uikit';
 
-
-import LiveStreamContext, {
-  raiseHandListInterface,
-} from '../../components/livestream';
 export interface VideoMeetingDataInterface {
   hostUids: UidType[];
   attendeeUids: UidType[];
-  liveStreamData: raiseHandListInterface;
 }
 const VideoMeetingData = createContext<VideoMeetingDataInterface>({
   hostUids: [],
   attendeeUids: [],
-  liveStreamData:{}
-
 });
 
 interface VideoMeetingDataProviderProps {
@@ -32,11 +22,8 @@ const VideoMeetingDataProvider = (props: VideoMeetingDataProviderProps) => {
   const {
     data: {isHost},
   } = useMeetingInfo();
-  const {renderList} = useRender();
-
   const {hasUserJoinedRTM} = useContext(ChatContext);
   const localUid = useLocalUid();
-  const {raiseHandList} = useContext(LiveStreamContext);
   const [hostUids, setHostUids] = useState<UidType[]>([]);
   const [attendeeUids, setAttendeeUids] = useState<UidType[]>([]);
 
@@ -71,27 +58,7 @@ const VideoMeetingDataProvider = (props: VideoMeetingDataProviderProps) => {
 
   useEffect(() => {
     //hasUserJoinedRTM ensure that RTM login successful and events can be sent.
-    // if (Object.keys(renderList).length !== 0) {
-      
     if (hasUserJoinedRTM) {
-      const hostList = filterObject(
-        renderList,
-        ([k, v]) =>
-          (v?.type === 'rtc' ||
-            v?.type === 'meeting' ||
-            (v?.type === 'screenshare' && v?.video == 1)) &&
-          (raiseHandList[k]
-            ? raiseHandList[k]?.role == ClientRole.Broadcaster
-            : true) &&
-          !v?.offline,
-      );
-      const audienceList = filterObject(
-        renderList,
-        ([k, v]) =>
-          (v?.type === 'rtc' || v?.type === 'meeting') &&
-          raiseHandList[k]?.role == ClientRole.Attendee &&
-          !v.offline,
-      );
       //send user role event so newly joining user will get the previous user role details
       events.send(
         isHost
@@ -101,14 +68,13 @@ const VideoMeetingDataProvider = (props: VideoMeetingDataProviderProps) => {
         EventPersistLevel.LEVEL2,
       );
     }
-  }, [isHost, hasUserJoinedRTM, raiseHandList])
+  }, [isHost, hasUserJoinedRTM]);
 
   return (
     <VideoMeetingData.Provider
       value={{
         hostUids,
         attendeeUids,
-        liveStreamData: raiseHandList,
       }}>
       {props.children}
     </VideoMeetingData.Provider>

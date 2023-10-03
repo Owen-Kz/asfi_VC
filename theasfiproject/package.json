@@ -144,5 +144,8 @@
       "json",
       "node"
     ]
-  }
+  },
+  "workspaces": [
+    "customization"
+  ]
 }
