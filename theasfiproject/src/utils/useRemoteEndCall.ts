@@ -1,31 +1,36 @@
-import {controlMessageEnum} from '../components/ChatContext';
-import {useMeetingInfo} from '../components/meeting-info/useMeetingInfo';
+import { controlMessageEnum } from '../components/ChatContext';
+import { useMeetingInfo } from '../components/meeting-info/useMeetingInfo';
 import useIsPSTN from './useIsPSTN';
-import {UidType} from '../../agora-rn-uikit';
-import events, {EventPersistLevel} from '../rtm-events-api';
+import { UidType } from '../../agora-rn-uikit';
+import events, { EventPersistLevel } from '../rtm-events-api';
 
-/**
- * Returns a function to end the call for a remote user with the given uid.
- */
 const useRemoteEndCall = () => {
   const {
-    data: {isHost},
+    data: { isHost },
   } = useMeetingInfo();
   const isPSTN = useIsPSTN();
 
-  return (uid: UidType) => {
-    if (isHost && uid) {
-      if (!isPSTN(uid)) {
-        events.send(
-          controlMessageEnum.kickUser,
-          '',
-          EventPersistLevel.LEVEL1,
-          uid,
-        );
-      }
-    } else {
-      console.error('A host can only remove the audience from the call.');
+  // Function to end the call for a specific user
+  const endCallForUser = (uid: UidType) => {
+    if (!isPSTN(uid)) {
+      events.send(controlMessageEnum.kickUser, '', EventPersistLevel.LEVEL1, uid);
     }
   };
+
+  return {
+    endCallForAllUsers: () => {
+      if (isHost) {
+        // End the call for all users
+        // You may iterate through a list of uids and call endCallForUser for each uid
+        // For demonstration, we're assuming uidList is an array of UidType
+        const uidList: UidType[] = []; // Replace with actual list of uids
+        uidList.forEach((uid) => endCallForUser(uid));
+      } else {
+        console.error('Only the host can end the call for all users.');
+      }
+    },
+    endCallForUser, // Function to end the call for a specific user
+  };
 };
+
 export default useRemoteEndCall;
