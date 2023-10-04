@@ -17,6 +17,8 @@ import Settings, {
   SettingsIconButtonProps,
 } from './Settings';
 import CopyJoinInfo, {CopyJoinInfoProps} from '../subComponents/CopyJoinInfo';
+import CopyAttendeeInfo, {CopyAttendeeInfoProps} from '../subComponents/CopyAttendee';
+
 import {SidePanelType} from '../subComponents/SidePanelEnum';
 import {navHolder} from '../../theme.json';
 import ChatContext from '../components/ChatContext';
@@ -97,6 +99,7 @@ interface ParticipantsIconButtonProps {
     buttonTemplateName?: ButtonTemplateName,
   ) => JSX.Element;
 }
+
 const ParticipantsIconButton = (props: ParticipantsIconButtonProps) => {
   const {
     liveStreamingRequestAlertIconPosition = {
@@ -138,7 +141,7 @@ const ParticipantsIconButton = (props: ParticipantsIconButtonProps) => {
   ) : (
     <>
       <BtnTemplate {...btnTemplateProps} />
-      {$config.EVENT_MODE && $config.RAISE_HAND && isPendingRequestToReview && (
+      {!$config.EVENT_MODE && $config.RAISE_HAND && isPendingRequestToReview && (
         <View
           style={{
             position: 'absolute',
@@ -158,6 +161,87 @@ const ParticipantsIconButton = (props: ParticipantsIconButtonProps) => {
     </>
   );
 };
+
+// POSTER DECK BUTTONS
+interface PosterDeckButtonProps {
+  liveStreamingRequestAlertIconPosition?: {
+    top?: number;
+    right?: number;
+    left?: number;
+    bottom?: number;
+  };
+  buttonTemplateName?: ButtonTemplateName;
+  render?: (
+    onPress: () => void,
+    isPanelActive: boolean,
+    buttonTemplateName?: ButtonTemplateName,
+  ) => JSX.Element;
+}
+
+const PosterDeckButton = (props: PosterDeckButtonProps) => {
+  const {
+    liveStreamingRequestAlertIconPosition = {
+      top: isWebInternal() ? -10 : 2,
+      left: undefined,
+      right: undefined,
+      bottom: undefined,
+    },
+  } = props;
+  const {sidePanel, setSidePanel} = useSidePanel();
+  const {isPendingRequestToReview, setLastCheckedRequestTimestamp} =
+    useContext(LiveStreamContext);
+  //commented for v1 release
+  //const participantsLabel = useString('participantsLabel')();
+  const participantsLabel = 'Poster Deck';
+  const defaultTemplateValue = useButtonTemplate().buttonTemplateName;
+  const {buttonTemplateName = defaultTemplateValue} = props;
+  const isPanelActive = sidePanel === SidePanelType.PosterDecks;
+  const onPress = () => {
+    isPanelActive
+      ? setSidePanel(SidePanelType.None)
+      : setSidePanel(SidePanelType.PosterDecks);
+  
+    setLastCheckedRequestTimestamp(new Date().getTime());
+  };
+  let btnTemplateProps: BtnTemplateInterface = {
+    onPress: onPress,
+    name: isPanelActive ? 'posterDeckIconFilled' : 'posterDeckIcon',
+  };
+
+  if (buttonTemplateName === ButtonTemplateName.bottomBar) {
+    btnTemplateProps.btnText = participantsLabel;
+    btnTemplateProps.style = Styles.localButtonWithoutBG as Object;
+  } else {
+    btnTemplateProps.style = style.btnHolder;
+  }
+  return props?.render ? (
+    props.render(onPress, isPanelActive, buttonTemplateName)
+  ) : (
+    <>
+      <BtnTemplate {...btnTemplateProps} />
+      {$config.RAISE_HAND && isPendingRequestToReview && (
+        <View
+          style={{
+            position: 'absolute',
+            top: liveStreamingRequestAlertIconPosition.top,
+            bottom: liveStreamingRequestAlertIconPosition.bottom,
+            right: liveStreamingRequestAlertIconPosition.right,
+            left: liveStreamingRequestAlertIconPosition.left,
+          }}>
+          <View style={[style.badge, {paddingHorizontal: 3}]}>
+            <ImageIcon
+              icon={icons['exclamationIcon']}
+              color={$config.SECONDARY_FONT_COLOR}
+            />
+          </View>
+        </View>
+      )}
+    </>
+  );
+};
+
+// END POSTER DECK BUTTON
+
 
 interface ChatIconButtonProps {
   badgeContainerPosition?: {
@@ -356,7 +440,7 @@ const Navbar = () => {
   //const recordingLabel = useString('recordingLabel')();
   const recordingLabel = 'Recording';
   const {
-    data: {meetingTitle},
+    data: {meetingTitle, isHost},
   } = useMeetingInfo();
 
   const {isRecordingActive} = useRecording();
@@ -441,9 +525,7 @@ const Navbar = () => {
                 marginHorizontal: 10,
               }}
             />
-            <View style={{width: 30}}>
-              <CopyJoinInfo />
-            </View>
+           
           </View>
         ) : (
           <View>
@@ -475,6 +557,13 @@ const Navbar = () => {
           <View style={[style.navItem, style.navSmItem]}>
             <ParticipantsIconButton />
           </View>
+
+          <RenderSeparator />
+          <View style={[style.navItem, style.navSmItem]}>
+          <PosterDeckButton />
+          </View>
+
+        
           {$config.CHAT ? (
             <>
               <RenderSeparator />
@@ -504,6 +593,7 @@ const Navbar = () => {
             </>
           )}
           <RenderSeparator />
+        
           <SettingsIconButtonWithWrapper />
         </View>
       </View>
@@ -512,19 +602,23 @@ const Navbar = () => {
 };
 type NavBarComponentsArrayProps = [
   (props: CopyJoinInfoProps) => JSX.Element,
+  (props: CopyAttendeeInfoProps) => JSX.Element,
   () => JSX.Element,
   (props: ParticipantsIconButtonProps) => JSX.Element,
   (props: ChatIconButtonProps) => JSX.Element,
   (props: LayoutIconButtonProps) => JSX.Element,
   (props: SettingsIconButtonProps) => JSX.Element,
+  (props: PosterDeckButtonProps) => JSX.Element,
 ];
 export const NavBarComponentsArray: NavBarComponentsArrayProps = [
   CopyJoinInfo,
+  CopyAttendeeInfo,
   ParticipantsCountView,
   ParticipantsIconButton,
   ChatIconButton,
   LayoutIconButton,
   SettingsIconButton,
+  PosterDeckButton
 ];
 
 const style = StyleSheet.create({

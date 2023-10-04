@@ -36,7 +36,11 @@ import LiveStreamControls, {
 import {isWebInternal} from '../utils/common';
 import {useMeetingInfo} from './meeting-info/useMeetingInfo';
 import LocalEndcall, {LocalEndcallProps} from '../subComponents/LocalEndCall';
+import RemoteEndCall, { RemoteEndCallProps } from '../subComponents/RemoteEndCall';
+
 import  LocalRaiseHand  from '../subComponents/raisehand/controls/LocalRaiseHand';
+import CopyJoinInfo, {CopyJoinInfoProps} from '../subComponents/CopyJoinInfo';
+import CopyAttendeeInfo, {CopyAttendeeInfoProps} from '../subComponents/CopyAttendee';
 
 const Controls = () => {
   const {rtcProps} = useContext(PropsContext);
@@ -90,16 +94,34 @@ const Controls = () => {
               <LocalSwitchCamera />
             </View>
           )}
+        
           {$config.SCREEN_SHARING && !isMobileOrTablet() && (
             <View style={{alignSelf: 'center'}}>
               <ScreenshareButton />
             </View>
           )}
+
+            <View style={{alignSelf: 'center'}}>
+          <LocalEndcall />
+          </View>
+          
+        {/* {isHost  && (
+            <View style={{alignSelf: 'center'}}>
+        <RemoteEndCall uid={rtcProps.uid} isHost={isHost} />
+        </View>
+           )} */}
+
           {isHost && $config.CLOUD_RECORDING && (
             <View style={{alignSelf: 'center'}}>
               <Recording />
             </View>
           )}
+          {isHost ?
+           <View style={{alignSelf: 'center'}}><CopyJoinInfo /></View>
+            : ''
+          }
+          <View style={{alignSelf: 'center'}}> <CopyAttendeeInfo /> </View>
+
             {!isHost && $config.RAISE_HAND && (
             <View style={{alignSelf: 'center'}}>
               <LocalRaiseHand />
@@ -107,9 +129,7 @@ const Controls = () => {
           )}
         </>
       )}
-      <View style={{alignSelf: 'center'}}>
-        <LocalEndcall />
-      </View>
+ 
     </View>
   );
 };
@@ -123,6 +143,13 @@ type ControlsComponentsArrayProps = [
   (props: RaiseHandButtonProps) => JSX.Element,
   (props: LocalEndcallProps) => JSX.Element,
   (props: LiveStreamControlsProps) => JSX.Element,
+  (props: CopyAttendeeInfoProps) => JSX.Element,
+  (props: CopyJoinInfoProps) => JSX.Element,
+  (props: RemoteEndCallProps) => JSX.Element,
+
+
+
+
 ];
 
 export const ControlsComponentsArray: ControlsComponentsArrayProps = [
@@ -134,6 +161,9 @@ export const ControlsComponentsArray: ControlsComponentsArrayProps = [
   RaiseHandButton,
   LocalEndcall,
   LiveStreamControls,
+  CopyAttendeeInfo,
+  CopyJoinInfo,
+  RemoteEndCall,
 ];
 
 const style = StyleSheet.create({

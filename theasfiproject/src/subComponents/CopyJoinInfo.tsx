@@ -40,7 +40,7 @@ const CopyJoinInfo = (props: CopyJoinInfoProps) => {
   const {copyShareLinkToClipboard} = useShareLink();
   //commented for v1 release
   //const copyMeetingInviteButton = useString('copyMeetingInviteButton')();
-  const copyMeetingInviteButton = 'Copy Meeting Invite';
+  const copyMeetingInviteButton = 'Meeting Info';
   const defaultTemplateValue = useButtonTemplate().buttonTemplateName;
   const {buttonTemplateName = defaultTemplateValue} = props;
   useEffect(() => {
@@ -59,7 +59,7 @@ const CopyJoinInfo = (props: CopyJoinInfoProps) => {
   } else {
     btnTemplateProps.color = $config.PRIMARY_FONT_COLOR;
     btnTemplateProps.style = style.backButton;
-    btnTemplateProps.btnText = props.showText ? copyMeetingInviteButton : '';
+    btnTemplateProps.btnText = props.showText ? copyMeetingInviteButton : 'Meeting Info';
   }
 
   return props?.render ? (

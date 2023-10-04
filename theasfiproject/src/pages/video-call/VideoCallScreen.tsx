@@ -4,6 +4,7 @@ import {useCustomization} from 'customization-implementation';
 import Navbar from '../../components/Navbar';
 import ParticipantsView from '../../components/ParticipantsView';
 import SettingsView from '../../components/SettingsView';
+import PosterDeckView from '../../components/PosterDeckView';
 import Controls from '../../components/Controls';
 import Chat from '../../components/Chat';
 import {SidePanelType} from '../../subComponents/SidePanelEnum';
@@ -40,6 +41,7 @@ const VideoCallScreen = () => {
       ChatComponent: React.ComponentType;
       BottombarComponent: React.ComponentType;
       ParticipantsComponent: React.ComponentType;
+      PosterDeckComponent: React.ComponentType;
       SettingsComponent: React.ComponentType;
       TopbarComponent: React.ComponentType;
       VideocallBeforeView: React.ComponentType;
@@ -50,6 +52,7 @@ const VideoCallScreen = () => {
       ChatComponent: Chat,
       ParticipantsComponent: ParticipantsView,
       SettingsComponent: SettingsView,
+      PosterDeckComponent: PosterDeckView,
       VideocallAfterView: React.Fragment,
       VideocallBeforeView: React.Fragment,
     };
@@ -156,6 +159,7 @@ const VideoCallScreen = () => {
           value={{buttonTemplateName: ButtonTemplateName.topBar}}>
           <TopbarComponent />
         </ButtonTemplateProvider>
+        
         <View style={[style.videoView, {backgroundColor: '#ffffff00'}]}>
           <VideoComponent />
           {sidePanel === SidePanelType.Participants ? (
@@ -172,6 +176,8 @@ const VideoCallScreen = () => {
           ) : (
             <></>
           )}
+          {sidePanel === SidePanelType.PosterDecks ? <PosterDeckView /> : <></>}
+          
           {sidePanel === SidePanelType.Settings ? <SettingsComponent /> : <></>}
         </View>
         {!isWebInternal() && sidePanel === SidePanelType.Chat ? (

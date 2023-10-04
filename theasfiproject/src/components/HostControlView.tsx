@@ -14,6 +14,10 @@ import {View, Text, StyleSheet} from 'react-native';
 import SecondaryButton from '../atoms/SecondaryButton';
 import {useString} from '../utils/useString';
 import useRemoteMute, {MUTE_REMOTE_TYPE} from '../utils/useRemoteMute';
+import {
+  SHARE_LINK_CONTENT_TYPE,
+  useShareLink,
+} from '../components/useShareLink';
 
 export interface MuteAllAudioButtonProps {
   render?: (onPress: () => void) => JSX.Element;
@@ -51,7 +55,28 @@ export const MuteAllVideoButton = (props: MuteAllVideoButtonProps) => {
   );
 };
 
+export interface CoHostProps {
+  render?: (onPress: () => void) => JSX.Element;
+}
+export const CoHost = (props: CoHostProps) => {
+const {copyShareLinkToClipboard} = useShareLink();
+
+  const muteRemoteAudio = useRemoteMute();
+  //commented for v1 release
+  //const CoHost = useString('CoHost')();
+  const CoHost = 'Get Co-Host Link';
+  const onPress = () =>
+    copyShareLinkToClipboard(SHARE_LINK_CONTENT_TYPE.HOST);
+
+
+  return props?.render ? (
+    props.render(onPress)
+  ) : (
+    <SecondaryButton onPress={onPress} text={CoHost} />
+  );
+};
 const HostControlView = () => {
+  
   //commented for v1 release
   //const hostControlsLabel = useString('hostControlsLabel')();
   const hostControlsLabel = 'Host Controls';
@@ -59,6 +84,9 @@ const HostControlView = () => {
     <>
       <Text style={style.heading}>{hostControlsLabel}</Text>
       <View>
+         <View style={style.btnContainer}>
+          <CoHost />
+        </View>
         <View style={style.btnContainer}>
           <MuteAllAudioButton />
         </View>

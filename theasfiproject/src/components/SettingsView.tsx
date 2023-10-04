@@ -9,8 +9,8 @@
  information visit https://appbuilder.agora.io. 
 *********************************************
 */
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import SelectDevice from '../subComponents/SelectDevice';
 import HostControlView from './HostControlView';
 import {useString} from '../utils/useString';
@@ -19,6 +19,12 @@ import {isWebInternal} from '../utils/common';
 import {useMeetingInfo} from './meeting-info/useMeetingInfo';
 
 const SettingsView = () => {
+  const [dim, setDim] = useState([
+    Dimensions.get('window').width,
+    Dimensions.get('window').height,
+    Dimensions.get('window').width > Dimensions.get('window').height,
+  ]);
+  const isSmall = dim[0] < 700;
   const {
     data: {isHost},
   } = useMeetingInfo();
@@ -28,7 +34,13 @@ const SettingsView = () => {
 
   return (
     <View
-      style={isWebInternal() ? style.settingsView : style.settingsViewNative}>
+    style={
+      isWebInternal()
+        ? !isSmall
+          ? style.settingsView
+          : style.settingsViewNative
+        : style.settingsViewNative
+    }>
       <View style={style.main}>
         <View>
           <Text style={style.heading}>{selectInputDeviceLabel}</Text>

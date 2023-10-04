@@ -20,18 +20,17 @@ export interface RemoteEndCallProps {
 }
 const RemoteEndCall = (props: RemoteEndCallProps) => {
   const endRemoteCall = useRemoteEndCall();
-  return props.isHost && String(props.uid)[0] !== '1' ? (
+  return props.isHost && (
     <BtnTemplate
       style={style.remoteButton}
       onPress={() => {
         endRemoteCall(props.uid);
       }}
       color="#FD0845"
-      name={'remoteEndCall'} // earlier was endCall, added remoteEndCall
+      name={'remoteEndCall'}
+       // earlier was endCall, added remoteEndCall
     />
-  ) : (
-    <></>
-  );
+  ) 
 };
 
 const style = StyleSheet.create({

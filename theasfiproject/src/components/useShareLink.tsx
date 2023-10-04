@@ -190,9 +190,9 @@ const ShareLinkProvider = (props: ShareLinkProvideProps) => {
     let baseURL = getBaseURL();
     if (roomId?.attendee) {
       if (baseURL) {
-        stringToCopy += `${baseURL}/${roomId.attendee}`;
+        stringToCopy += `Event Title - ${meetingTitle}\n | Event URL - ${baseURL}/${roomId.attendee}`;
       } else {
-        stringToCopy += `${roomId.attendee}`;
+        stringToCopy += `Event Title - ${meetingTitle}\n | Event Attendee - ${roomId.attendee}`;
       }
     }
     return stringToCopy;
@@ -203,9 +203,9 @@ const ShareLinkProvider = (props: ShareLinkProvideProps) => {
     if (roomId?.host) {
       let baseURL = getBaseURL();
       if (baseURL) {
-        stringToCopy += `${baseURL}/${roomId.host}`;
+        stringToCopy += `Click here to join - ${meetingTitle}\n as a host :- Host URL-\n${baseURL}/${roomId.host}`;
       } else {
-        stringToCopy += `${roomId.host}`;
+        stringToCopy += `Event Title -${meetingTitle}-\n${roomId.host}`;
       }
     }
     return stringToCopy;
