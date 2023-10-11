@@ -101,6 +101,9 @@ const App: React.FC = () => {
               <Route exact path={'/authenticate'}>
                 {shouldAuthenticate ? <OAuth /> : <Redirect to={'/'} />}
               </Route>
+              <Route exact path={'/testDirect'}>
+                {shouldAuthenticate ? <OAuth /> : <Redirect to={'/'} />}
+              </Route>
               <Route path={'/auth-token/:token'}>
                 <StoreToken />
               </Route>

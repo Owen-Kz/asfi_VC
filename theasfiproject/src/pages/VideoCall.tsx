@@ -20,7 +20,7 @@ import {
   LocalUserContext,
 } from '../../agora-rn-uikit';
 import styles from '../components/styles';
-import {useParams, useHistory} from '../components/Router';
+import {useParams, useHistory, Redirect} from '../components/Router';
 import RtmConfigure from '../components/RTMConfigure';
 import DeviceConfigure from '../components/DeviceConfigure';
 import Logo from '../subComponents/Logo';
@@ -178,7 +178,8 @@ const VideoCall: React.FC = () => {
     EndCall: () =>
       setTimeout(() => {
         SDKEvents.emit('leave');
-        history.push('/');
+        history.push('/endingCall');
+        window.location.href = 'https://asfi-demo-app-2cbea9ef1c2f.herokuapp.com/';
       }, 0),
   };
 

@@ -234,6 +234,8 @@ const style = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-evenly',
     flexGrow: 1,
+    // backgroundColor:"white",
+    // fontColor:"black"
   },
   nav: {
     flex: 1,

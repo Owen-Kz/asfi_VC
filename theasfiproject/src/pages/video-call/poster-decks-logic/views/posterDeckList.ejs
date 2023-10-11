@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster Decks</title>
+</head>
+<body>
+    
+    <style>
+        .deck-main {
+            height: 100vh;
+            background-color: rgb(227, 227, 230);
+        }
+        .deck-container {
+            background-color: rgba(128, 0, 128, 0.151);
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+            height: 95%;
+            
+            margin: auto;
+            overflow-y: scroll;
+        }
+        .posterContainer {
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+  height: 150px;
+  margin-top: 15px;
+  margin-left: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 11px 23px 0px rgba(43, 43, 43, 0.29);
+}
+
+.posterImg {
+  background-color: blueviolet;
+  width: 40%;
+  height: 100%;
+}
+
+.posterImage {
+  flex: 1;
+  resize-mode: cover;
+}
+
+.posterInfo {
+  background-color: rgb(233, 231, 231);
+  padding: 20px;
+  width: 60%;
+}
+
+.posterTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+        .poster-info {
+            background-color: rgb(233, 231, 231);
+            padding: 20px;
+            width: 100%;
+        }
+        .poster-info p {
+            padding: 0;
+            margin: 0;
+        }
+        a {
+			text-decoration: none;
+			color: rgba(39, 39, 39, 0.61);
+		}
+
+     </style>
+     
+    
+    <main class="deck-main">
+		<section class="deck-container" id="posterDeckListContainer">
+		<input type="text" value="a6fcfc9cb2ad4b3f84a25d309fe99603" readonly id="meetingSecret">
+		<input type="text" value="Human Meeting" readonly id="meetingTitle">
+			
+		</section>
+		</main>
+
+<script src="/js/getPosterDecks.js"></script>
+</body>
+</html>

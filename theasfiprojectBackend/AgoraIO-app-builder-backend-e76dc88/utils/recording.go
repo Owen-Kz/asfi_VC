@@ -15,7 +15,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"os"
+	"path/filepath"
 	"time"
+	"io"
 
 	"github.com/spf13/viper"
 )
@@ -67,6 +70,7 @@ type StorageConfig struct {
 	AccessKey      string   `json:"accessKey"`
 	SecretKey      string   `json:"secretKey"`
 	FileNamePrefix []string `json:"fileNamePrefix"`
+	LocalDirectory string `json:"localDirectory,omitempty"`
 }
 
 type RecordingFileConfig struct {
@@ -220,7 +224,32 @@ func (rec *Recorder) Start(channelTitle string, secret *string) error {
 
 	rec.Logger.Debug().Interface("Result", result).Msg("Recording Result")
 
+	// Get the user's home directory
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return err
+	}
+
+	// Define the local file path to save the video in the "Downloads" folder
+	localFilePath := filepath.Join(homeDir, "Downloads", channelTitle+"_"+currentDate+"_"+currentTime+".mp4")
+
+	// Open a file for writing
+	localFile, err := os.Create(localFilePath)
+	if err != nil {
+		return err
+	}
+	defer localFile.Close()
+
+	// Retrieve the video data from the Agora API response and write it to the local file
+	_, err = io.Copy(localFile, resp.Body)
+	if err != nil {
+		return err
+	}
+
+	rec.Logger.Debug().Msgf("Recording saved to local file: %s", localFilePath)
+
 	return nil
+
 }
 
 type UpdateRecordRequest struct {
