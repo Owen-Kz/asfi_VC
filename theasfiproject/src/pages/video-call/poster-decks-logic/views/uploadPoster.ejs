@@ -26,8 +26,6 @@
         <link rel="stylesheet" href="/css/weather-icons/css/weather-icons-core.css">
     
         <title>Posters |  ASFI Scholar</title>
-        <!-- Dark mode -->
-        <script src="/js/colorTheme.js"></script>
 
 
         
@@ -90,7 +88,12 @@ Upload Poster START -->
 				<!-- Event title -->
 				<div class="col-12">
 					<label class="form-label">Title*</label>
-					<input class="form-control" type="text" name="eventTitle" id="eventTitle"  placeholder="Enter event title">
+					<div class="dropdown">
+						<input class="form-control" type="text" name="eventTitle" id="eventTitle" placeholder="Enter event title" onclick="showEventDropdown()" readonly>
+						<div id="eventDropdown" class="dropdown-content">
+							<!-- The event titles will be displayed here -->
+						</div>
+					</div>
 				</div>
 
 				<!-- Event organizer -->
@@ -173,6 +176,36 @@ Footer START -->
 </footer>
 <!-- =======================
 Footer END -->
+
+<script>
+    function showEventDropdown() {
+        // Simulated list of event titles (you can replace this with your data)
+        const eventTitles = ["Event 1", "Event 2", "Event 3", "Event 4"];
+
+        const dropdown = document.getElementById("eventDropdown");
+        dropdown.innerHTML = "";
+
+        eventTitles.forEach(function (title) {
+            const option = document.createElement("div");
+            option.textContent = title;
+            option.addEventListener("click", function () {
+                document.getElementById("eventTitle").value = title;
+                dropdown.style.display = "none";
+            });
+            dropdown.appendChild(option);
+        });
+
+        dropdown.style.display = "block";
+    }
+
+    document.addEventListener("click", function (e) {
+        const dropdown = document.getElementById("eventDropdown");
+        if (e.target !== dropdown && e.target !== document.getElementById("eventTitle")) {
+            dropdown.style.display = "none";
+        }
+    });
+</script>
+
 <script src="/js/jquery-3.4.1.min.js"></script>
 <!-- <script src="/js/mainjs.js"></script> -->
 
@@ -180,7 +213,7 @@ Footer END -->
 <div class="back-top"><i class="fas fa-arrow-up position-absolute top-50 start-50 translate-middle"></i></div>
 
 <!-- Bootstrap JS -->
-<!-- <script src="/js/bootstrap/bootstrap.bundle.min.js"></script> -->
+<script src="/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors
 <script src="/vendor/tiny-slider/tiny-slider.js"></script>
