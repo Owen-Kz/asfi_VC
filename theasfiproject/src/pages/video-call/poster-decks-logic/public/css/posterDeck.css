@@ -22705,12 +22705,12 @@ logoHere{
 
 /* PRESENTERS */
 .presenter-container {
-  background-color: red;
   display: flex;
   flex-direction: column;
   width: 90%;
   margin: auto;
   border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .prep-top {
@@ -22720,7 +22720,9 @@ logoHere{
     justify-content: space-between;
     align-items: center;
 }
-
+.p-name {
+  color: rgba(0, 0, 0, 0.8);
+}
 .prep-bottom {
     border-top: 1px solid gray;
     padding: 20px;
@@ -22748,6 +22750,8 @@ logoHere{
 .tester-side {
   margin-left: 50px;
 }
+
+
 
 .tester-side h4 a {
     border: 1px solid black;
@@ -22812,6 +22816,37 @@ logoHere{
   color: white;
   border-radius: 8px;
 }
+
+
+
+.navbar > .containerReg {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: inherit;
+      flex-wrap: inherit;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+          background-color: transparent;
+          padding: 3px;
+          border-radius: 0px 0px 25px 25px;
+          box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.34);
+}
+.navbar {
+  background-color: transparent;
+}
+.navbar-sticky {
+  background-color: transparent;
+}
+
+
+
+
+
 
 @media (max-width: 780px) {
   .preview-container {
