@@ -20,6 +20,7 @@ import OAuth from './components/OAuth';
 import StoreToken from './components/StoreToken';
 import {shouldAuthenticate} from './utils/common';
 import KeyboardManager from 'react-native-keyboard-manager';
+
 // commented for v1 release
 //import {CustomRoutesInterface, CUSTOM_ROUTES_PREFIX} from 'customization-api';
 //import {useCustomization} from 'customization-implementation';
@@ -31,6 +32,8 @@ import {
 } from './components/meeting-info/useMeetingInfo';
 import {SetMeetingInfoProvider} from './components/meeting-info/useSetMeetingInfo';
 import {ShareLinkProvider} from './components/useShareLink';
+import { RetrievePosterDecksTable } from './pages/video-call/poster-decks-logic/routes/queries.js';
+import GetPosterDecks from './components/GetPosterDecks';
 
 //hook can't be used in the outside react function calls. so directly checking the platform.
 if (Platform.OS === 'ios') {
@@ -98,6 +101,7 @@ const App: React.FC = () => {
               <Route exact path={'/'}>
                 <Redirect to={'/create'} />
               </Route>
+             
               <Route exact path={'/authenticate'}>
                 {shouldAuthenticate ? <OAuth /> : <Redirect to={'/'} />}
               </Route>
@@ -107,6 +111,7 @@ const App: React.FC = () => {
               <Route path={'/auth-token/:token'}>
                 <StoreToken />
               </Route>
+
               <Route exact path={'/join'}>
                 <Join />
               </Route>

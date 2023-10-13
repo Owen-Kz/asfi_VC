@@ -536,6 +536,7 @@ const Navbar = () => {
             </Text>
           </View>
         )}
+       
       </View>
       <View style={style.navControlBar}>
         <View

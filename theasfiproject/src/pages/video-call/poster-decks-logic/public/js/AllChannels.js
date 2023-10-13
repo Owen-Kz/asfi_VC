@@ -1,4 +1,4 @@
-const ChannelsContainer = document.getElementById("channelsContainer")
+const ChannelsContainer = document.getElementById("eventTitle")
 fetch("/allchannels", ()=>{
     method: "GET"
 }).then(res => res.json())
@@ -6,14 +6,16 @@ fetch("/allchannels", ()=>{
     const AllChannelsData = JSON.parse(data.ChannelData)
 
     if(AllChannelsData.length > 0){
-        AllChannelsData.forEach(channel => {
+        AllChannelsData.forEach(channel => { 
             const ChannelName = channel.channel_secret
             const ChannelTitle = channel.title
+            const ChannelMain = channel.channel_name
+            const host_passphrase = channel.host_passphrase
 
-            ChannelsContainer.innerHTML += `<li>${ChannelName}, ${ChannelTitle}</li>`
+            ChannelsContainer.innerHTML += `<option value='${ChannelName}'>${ChannelTitle}</option>`
             
         });
     }else{
-        ChannelsContainer.innerHTML = `<li>No available Meetings, Create One</li>`
+        ChannelsContainer.innerHTML = `<option value=''>No available Meetings, Navigate to the "Session button" to create One</option>`
     }
-})
+}) 

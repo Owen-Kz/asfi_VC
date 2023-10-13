@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text, TextInput} from 'react-native';
 import {useCustomization} from 'customization-implementation';
 import Navbar from '../../components/Navbar';
 import ParticipantsView from '../../components/ParticipantsView';
@@ -23,8 +23,21 @@ import {useRtc} from 'customization-api';
 const VideoCallScreen = () => {
   const {sidePanel} = useSidePanel();
   const rtc = useRtc();
+  useEffect(() => {
+    // Load the script dynamically
+    const script = document.createElement('script');
+    script.src = 'http://localhost:2020/js/encryptionSecret.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Cleanup the script when the component is unmounted
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const {
-    data: {meetingTitle, isHost},
+    data: {meetingTitle, isHost, channel, encryptionSecret},
   } = useMeetingInfo(); 
   const {
     ChatComponent,
@@ -176,6 +189,14 @@ const VideoCallScreen = () => {
           ) : (
             <></>
           )}
+              <View>
+      <TextInput
+        value={encryptionSecret}
+        editable={false} // To make the input non-editable
+        style={{display:'none', borderWidth: 1, padding: 10 }} // You can adjust styles as needed
+        testID="meetingSecret" // Add a testID for testing purposes
+      />
+    </View>
           {sidePanel === SidePanelType.PosterDecks ? <PosterDeckView /> : <></>}
           
           {sidePanel === SidePanelType.Settings ? <SettingsComponent /> : <></>}

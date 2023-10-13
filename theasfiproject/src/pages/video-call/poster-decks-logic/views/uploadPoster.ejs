@@ -47,8 +47,8 @@
 		<div class="container containerReg">
             <!-- Logo START -->
 			<a class="navbar-brand" href="">
-				<img class="light-mode-item navbar-brand-item" src="/images/ASFIScholar_Logo.png" alt="logo">
-				<img class="dark-mode-item navbar-brand-item" src="/images/ASFIScholar_Logo.png" alt="logo">
+				<img class="light-mode-item navbar-brand-item" src="/files/images/ASFIScholar_Logo.png" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" src="/files/images/ASFIScholar_Logo.png" alt="logo">
 			</a>
 			<!-- Logo END -->
 			<!-- SignUp or Login -->
@@ -85,39 +85,44 @@ Upload Poster START -->
 
 			<!-- Basic information START -->
 			<div class="row g-4">
+				<form id="createPosterDeckForm" enctype="multipart/form-data" action="/createdeck" method="post">
 				<!-- Event title -->
 				<div class="col-12">
-					<label class="form-label">Title*</label>
+					<label class="form-label">Event*</label>
 					<div class="dropdown">
-						<input class="form-control" type="text" name="eventTitle" id="eventTitle" placeholder="Enter event title" onclick="showEventDropdown()" readonly>
-						<div id="eventDropdown" class="dropdown-content">
-							<!-- The event titles will be displayed here -->
-						</div>
+						<select class="form-control" name="eventTitle" id="eventTitle" required>
+							<option value="">Select Event you want to add the deck to</option>
+							
+						</select>
+						
 					</div>
 				</div>
 
-				<!-- Event organizer -->
+				<!-- Poster Title  -->
 				<div class="col-12">
-					<label class="form-label">Authors*</label>
-					<input class="form-control" type="text" name="eventOrganizer" id="eventOrganizer" value="">
+					<label class="form-label">Title*</label>
+					<div class="dropdown">
+						<input class="form-control" type="text" name="deckTitle" id="deckTitle" value="" required>
+						
+					</div>
 				</div>
 
 				<!-- Short description -->
 				<div class="col-12">
 					<label class="form-label">Abstract</label>
-					<textarea class="form-control" name="shortDescription" id="shortDescription" rows="10" placeholder="Enter keywords"></textarea>
+					<textarea class="form-control" name="shortDescription" id="shortDescription" rows="10" placeholder="Enter A description for your presentation" required></textarea>
 				</div>
 
 				<!-- Presenter Name -->
 				<div class="col-12">
 					<label class="form-label">Presenter Name*</label>
-					<input class="form-control" type="text" name="presenterName" id="presenterName" value="">
+					<input class="form-control" type="text" name="presenterName" id="presenterName" value="" required>
 				</div>
 
 				<!-- Presenter Email -->
 				<div class="col-12">
 					<label class="form-label">Presenter Email Address*</label>
-					<input class="form-control" type="text" name="presenterEmail" id="presenterEmail" value="">
+					<input class="form-control" type="email" name="presenterEmail" id="presenterEmail" value="" required>
 				</div>
 
 				<div class="col-12">
@@ -128,25 +133,22 @@ Upload Poster START -->
 				<div class="col-12">
 					<label class="form-label">Upload a PDF now (25Mb limit)</label>
 					<div class="input-group mb-3">
-						<input type="file" class="form-control" id="PosterPDF">
+						<input type="file" class="form-control" id="PosterPDF" name="PosterPDF" accept=".pdf" required>
 						<label class="input-group-text">.pdf</label>
 					</div>
 				</div>
 
           
-				
-
-				
-				
-
+				<input type="submit" id="submitPoster" hidden/>
 				<!-- Step 1 button -->
 				<div class="d-flex justify-content-end mt-3">
-					<button type="button" class="btn btn-primary next-btn mb-0">Submit</button>
+					<button type="submit" class="btn btn-primary next-btn mb-0">Submit</button>
 				</div>
 			</div>
 			<!-- Basic information START -->
 		</div>
 		<!-- Step 1 content END -->
+	</form>
 	</div>
 
 		
@@ -173,37 +175,38 @@ Footer START -->
 			<!-- Widget -->
 		</div>
 	</div>
+
 </footer>
 <!-- =======================
 Footer END -->
 
 <script>
-    function showEventDropdown() {
-        // Simulated list of event titles (you can replace this with your data)
-        const eventTitles = ["Event 1", "Event 2", "Event 3", "Event 4"];
+    // function showEventDropdown() {
+    //     // Simulated list of event titles (you can replace this with your data)
+    //     const eventTitles = ["Event 1", "Event 2", "Event 3", "Event 4"];
 
-        const dropdown = document.getElementById("eventDropdown");
-        dropdown.innerHTML = "";
+    //     const dropdown = document.getElementById("eventDropdown");
+    //     dropdown.innerHTML = "";
 
-        eventTitles.forEach(function (title) {
-            const option = document.createElement("div");
-            option.textContent = title;
-            option.addEventListener("click", function () {
-                document.getElementById("eventTitle").value = title;
-                dropdown.style.display = "none";
-            });
-            dropdown.appendChild(option);
-        });
+    //     eventTitles.forEach(function (title) {
+    //         const option = document.createElement("div");
+    //         option.textContent = title;
+    //         option.addEventListener("click", function () {
+    //             document.getElementById("eventTitle").value = title;
+    //             dropdown.style.display = "none";
+    //         });
+    //         dropdown.appendChild(option);
+    //     });
 
-        dropdown.style.display = "block";
-    }
+    //     dropdown.style.display = "block";
+    // }
 
-    document.addEventListener("click", function (e) {
-        const dropdown = document.getElementById("eventDropdown");
-        if (e.target !== dropdown && e.target !== document.getElementById("eventTitle")) {
-            dropdown.style.display = "none";
-        }
-    });
+    // document.addEventListener("click", function (e) {
+    //     const dropdown = document.getElementById("eventDropdown");
+    //     if (e.target !== dropdown && e.target !== document.getElementById("eventTitle")) {
+    //         dropdown.style.display = "none";
+    //     }
+    // });
 </script>
 
 <script src="/js/jquery-3.4.1.min.js"></script>
@@ -214,17 +217,8 @@ Footer END -->
 
 <!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>
-
-<!-- Vendors
-<script src="/vendor/tiny-slider/tiny-slider.js"></script>
-<script src="/js/choices.min.js"></script>
-<script src="/js/aos.js"></script>
-<script src="/js/glightbox.js"></script>
-<script src="/js/quill.min.js"></script>
-<script src="/js/bs-stepper.min.js"></script> -->
-
-<!-- Template Functions -->
-<!-- <script src="/js/functions.js"></script> -->
+<script src="/js/AllChannels.js"></script>
+<script src="/js/createposter.js"></script>
 
 </body>
 

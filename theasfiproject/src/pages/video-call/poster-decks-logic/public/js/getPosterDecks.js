@@ -1,7 +1,24 @@
-const Meeting = document.getElementById("meetingSecret")
-const posterDeckMain = document.getElementById("posterDeckListContainer")
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return '';
+}
 
-fetch(`/getposterdecks/${Meeting.value}`, ()=>{
+// Usage
+ // Access the encryption secret value
+const cookieValue = getCookie('meetingId');
+const posterDeckMain = document.getElementById('posterDeckListContainer')
+const posterDeckContainers = []
+const posterDeckFiles = []
+
+if(cookieValue){
+    
+fetch(`/getposterdecks/${cookieValue}`, ()=>{
     method: "GET"
 }).then(res => res.json())
 .then(data =>{
@@ -14,20 +31,34 @@ fetch(`/getposterdecks/${Meeting.value}`, ()=>{
             const posterDeckOwner = posterDeck.poster_deck_owner 
             const posterDeckDescription = posterDeck.poster_deck_descritiption
             const posterDeckImage = posterDeck.poster_deck_image
+            // let posterMainFile
+            const posterMainFile = `/uploads/posters/${posterDeckImage}`
             
-            
-            posterDeckMain.innerHTML += `<a href=https://asfiposterdecks.com/${posterDeckLink}>
+            posterDeckMain.innerHTML += `<a href="/event/poster/${posterDeckLink}" target="_blank">
 			<div class="posterContainer">
-				<div class="posterImg">
-					<img src="https://asfiposterdecks.com/images/${posterDeckImage}" alt="testdeck" class="posterImage">
+				<div class="posterImg" style='overflow-y:scroll; display:flex; '>
+            
+                    <div id="${posterDeckLink}" style="margin: auto; width:100%; display:flex;flex-direction:column; align-items:center;"></div>
+                
 				</div>
-				<div class="poster-info">
-					<h5>${posterDeckTitle}</h5>
-					<p>${posterDeckOwner}</p>
-					<p>${posterDeckDescription}</p>
+				<div class="posterInfo">
+					<div class='posterTitle'>${posterDeckTitle}</div>
+					<div class='posterDescription'>${posterDeckDescription}</div>
+					<div class='small'><small>${posterDeckOwner}</small></div>
+
 				</div>
 			</div>
 		</a>`;
+        posterDeckFiles.push(posterMainFile)
+        posterDeckContainers.push(posterDeckLink)
         })
-    }
+        pdfRemderer(posterDeckFiles,posterDeckContainers);       
+
+     
+    }else[
+        posterDeckMain.innerHTML = `<div class='empty'> No poster Decks available </div>`
+    ]
 })
+}else{
+    posterDeckMain.innerHTML = `<div class='empty'> Unathorized Access </div>`
+}

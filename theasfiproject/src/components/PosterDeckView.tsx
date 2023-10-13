@@ -1,8 +1,9 @@
-import React, {useState, useContext} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView} from 'react-native';
+import React, {useState, useContext, useEffect} from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, TextInput} from 'react-native';
 import DeckItem from '../subComponents/deckItem';
 
 import {isIOS, isValidReactComponent, isWebInternal} from '../utils/common';
+import { useMeetingInfo } from './meeting-info/useMeetingInfo';
 
 
 
@@ -14,6 +15,9 @@ const PosterDeckView  = () => {
     Dimensions.get('window').width > Dimensions.get('window').height,
   ]);
   const isSmall = dim[0] < 700;
+  const {
+    data: {meetingTitle, isHost, channel, encryptionSecret},
+  } = useMeetingInfo();
 
   return (
     <View style={
@@ -23,30 +27,27 @@ const PosterDeckView  = () => {
               : styles.deckMainNative
             : styles.deckMainNative
         }>   
-        
+  
+
         <View style={styles.posterDeckContainerHeader}>
         <Text>Poster Decks</Text>
         </View>
-      <View style={styles.deckContainer}>
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
-        <DeckItem />
+      <View style={styles.deckContainer} testID='posterDeckListContainer'>
+        <View style={styles.deckContainer}>
+        <iframe
+          src="http://localhost:2020" // URL of the page to embed
+          title="Poster Decks Container"
+          width="100%"
+          height="500px"
+        />
+      </View>
+        {/* <DeckItem /> */}
+  
 
         {/* Repeat the above structure for other posters */}
       </View>
     </View>
+ 
  
   );
 };
@@ -88,9 +89,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    height: '95%',
+    height: '100vh',
     margin: 'auto',
-    overflowY: 'scroll',
     scrollbarWidth: '5px',
     flex: 1,
     alignItems:"center",

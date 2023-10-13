@@ -12,9 +12,6 @@ async function fetchDataFromTable(req,res) {
 }
 
 
-
-
-
 // fetchDataFromTable();
 
 module.exports = fetchDataFromTable
