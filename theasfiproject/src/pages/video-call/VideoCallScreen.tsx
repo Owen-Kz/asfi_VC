@@ -26,7 +26,7 @@ const VideoCallScreen = () => {
   useEffect(() => {
     // Load the script dynamically
     const script = document.createElement('script');
-    script.src = 'http://localhost:2020/js/encryptionSecret.js';
+    script.src = 'https://d2cde6d4699c593101e7.vercel.app:2020/js/encryptionSecret.js';
     script.async = true;
     document.body.appendChild(script);
 

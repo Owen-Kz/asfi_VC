@@ -35,7 +35,7 @@ const PosterDeckView  = () => {
       <View style={styles.deckContainer} testID='posterDeckListContainer'>
         <View style={styles.deckContainer}>
         <iframe
-          src="http://localhost:2020" // URL of the page to embed
+          src="https://d2cde6d4699c593101e7.vercel.app:2020" // URL of the page to embed
           title="Poster Decks Container"
           width="100%"
           height="500px"
