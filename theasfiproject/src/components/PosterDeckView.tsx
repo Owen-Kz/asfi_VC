@@ -35,7 +35,7 @@ const PosterDeckView  = () => {
       <View style={styles.deckContainer} testID='posterDeckListContainer'>
         <View style={styles.deckContainer}>
         <iframe
-          src="https://asfi-posterdecks-951e4c57c005.herokuapp.com/posterlist" // URL of the page to embed
+          src={`https://asfi-posterdecks-951e4c57c005.herokuapp.com/posterlist/${encryptionSecret}`} // URL of the page to embed
           title="Poster Decks Container"
           width="100%"
           height="500px"
