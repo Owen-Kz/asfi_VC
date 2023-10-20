@@ -27,6 +27,9 @@ import events, {EventPersistLevel} from '../../rtm-events-api';
 import {EventActions, EventNames} from '../../rtm-events';
 import useRecordingLayoutQuery from './useRecordingLayoutQuery';
 import {useScreenContext} from '../../components/contexts/ScreenShareContext';
+import AgoraRTC from 'agora-rtc-sdk-ng';
+const client = AgoraRTC.createClient({ mode: 'live', codec: 'vp8' });
+
 
 export interface RecordingContextInterface {
   startRecording: () => void;
@@ -134,83 +137,38 @@ const RecordingProvider = (props: RecordingProviderProps) => {
       });
     }
   }, [isRecordingActive]);
+  const REC_BOX = []
 
-  const startRecording = () => {
-    // If recording is not going on, start the recording by executing the graphql query
-    startRecordingQuery({
-      variables: {
-        passphrase: phrase,
-        secret:
-          rtcProps.encryption && rtcProps.encryption.key
-            ? rtcProps.encryption.key
-            : '',
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.startRecordingSession === 'success') {
-          /**
-           * 1. Once the backend sucessfuly starts recording, send message
-           * in the channel indicating that cloud recording is now active.
-           */
-          events.send(
-            EventNames.RECORDING_ATTRIBUTE,
-            JSON.stringify({
-              action: EventActions.RECORDING_STARTED,
-              value: `${localUid}`,
-            }),
-            EventPersistLevel.LEVEL3,
-          );
-          // 2. set the local recording state to true to update the UI
-          setRecordingActive(true);
-          // 3. set the presenter mode if screen share is active
-          // 3.a Get the most recent screenshare uid
-          const sorted = Object.entries(screenShareData)
-            .filter((el) => el[1]?.ts && el[1].ts > 0 && el[1]?.isActive)
-            .sort((a, b) => b[1].ts - a[1].ts);
+  const startRecording = async () => {
+    console.log("Recording in progress");
 
-          const activeScreenshareUid = sorted.length > 0 ? sorted[0][0] : 0;
-          if (activeScreenshareUid) {
-            console.log(
-              'screenshare: Executing presenter query for screenuid',
-              activeScreenshareUid,
-            );
-            executePresenterQuery(parseInt(activeScreenshareUid));
-          } else {
-            executeNormalQuery();
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    events.send(
+      EventNames.RECORDING_ATTRIBUTE,
+      JSON.stringify({
+        action: EventActions.RECORDING_STARTED,
+        value: `${localUid}`,
+      }),
+      EventPersistLevel.LEVEL3,
+    );
+    // 2. set the local recording state to true to update the UI
+    startRecordingLive()
+    setRecordingActive(true);
+ 
   };
+  
+  const stopRecording = async () => {
 
-  const stopRecording = () => {
-    // If recording is already going on, stop the recording by executing the graphql query.
-    stopRecordingQuery({variables: {passphrase: phrase}})
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.stopRecordingSession === 'success') {
-          /**
-           * 1. Once the backend sucessfuly starts recording, send message
-           * in the channel indicating that cloud recording is now inactive.
-           */
-          events.send(
-            EventNames.RECORDING_ATTRIBUTE,
-            JSON.stringify({
-              action: EventActions.RECORDING_STOPPED,
-              value: '',
-            }),
-            EventPersistLevel.LEVEL3,
-          );
-          // 2. set the local recording state to false to update the UI
-          setRecordingActive(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    events.send(
+      EventNames.RECORDING_ATTRIBUTE,
+      JSON.stringify({
+        action: EventActions.RECORDING_STOPPED,
+        value: '',
+      }),
+      EventPersistLevel.LEVEL3,
+    );
+    // 2. set the local recording state to false to update the UI
+    stopRecordingLive()
+    setRecordingActive(false);
   };
 
   return (

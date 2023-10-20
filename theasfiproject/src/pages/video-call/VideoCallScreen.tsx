@@ -25,15 +25,29 @@ const VideoCallScreen = () => {
   const rtc = useRtc();
   useEffect(() => {
     // Load the script dynamically
-    const script = document.createElement('script');
-    script.src = 'https://asfi-posterdecks-951e4c57c005.herokuapp.com/js/encryptionSecret.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    // Cleanup the script when the component is unmounted
-    return () => {
-      document.body.removeChild(script);
-    };
+      // Load the script dynamically
+      const script = document.createElement('script');
+      script.src = 'https://owen-kz.github.io/NavbarScript.js';
+      script.async = true;
+      document.body.appendChild(script);
+      // theasfiproject/src/pages/video-call/poster-decks-logic/public/js/recorder.js
+      // Cleanup the script when the component is unmounted
+      return () => {
+        document.body.removeChild(script);
+      };
+  }, []);
+  useEffect(() => {
+    // Load the script dynamically
+      // Load the script dynamically
+      const script = document.createElement('script');
+      script.src = 'https://owen-kz.github.io/recorder.js';
+      script.async = true;
+      document.body.appendChild(script);
+    
+      // Cleanup the script when the component is unmounted
+      return () => {
+        document.body.removeChild(script);
+      };
   }, []);
 
   const {
@@ -145,6 +159,9 @@ const VideoCallScreen = () => {
   });
 
   useEffect(() => {
+
+
+ 
     /**
      * OLD: Commenting this code as getDevices API is web only
      * The below code fails on native app
@@ -172,7 +189,7 @@ const VideoCallScreen = () => {
           value={{buttonTemplateName: ButtonTemplateName.topBar}}>
           <TopbarComponent />
         </ButtonTemplateProvider>
-        
+      
         <View style={[style.videoView, {backgroundColor: '#ffffff00'}]}>
           <VideoComponent />
           {sidePanel === SidePanelType.Participants ? (

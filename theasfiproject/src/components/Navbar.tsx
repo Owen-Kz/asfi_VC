@@ -9,8 +9,8 @@
  information visit https://appbuilder.agora.io. 
 *********************************************
 */
-import React, {useContext, useState} from 'react';
-import {View, Text, StyleSheet, ViewStyle, TextStyle} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {View, Text, StyleSheet, ViewStyle, TextStyle, TouchableWithoutFeedback} from 'react-native';
 import icons from '../assets/icons';
 import Settings, {
   SettingsWithViewWrapper,
@@ -150,7 +150,7 @@ const ParticipantsIconButton = (props: ParticipantsIconButtonProps) => {
             right: liveStreamingRequestAlertIconPosition.right,
             left: liveStreamingRequestAlertIconPosition.left,
           }}>
-          <View style={[style.badge, {paddingHorizontal: 3}]}>
+          <View style={[style.badge, {paddingHorizontal: 3}]} data-testid='participantsIcon'>
             <ImageIcon
               icon={icons['exclamationIcon']}
               color={$config.SECONDARY_FONT_COLOR}
@@ -436,6 +436,16 @@ const SettingsIconButtonWithWrapper = (props: SettingsIconButtonProps) => {
 };
 
 const Navbar = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   //commented for v1 release
   //const recordingLabel = useString('recordingLabel')();
   const recordingLabel = 'Recording';
@@ -555,9 +565,11 @@ const Navbar = () => {
             },
           ]}>
           <ParticipantsCountView />
-          <View style={[style.navItem, style.navSmItem]}>
+          <View style={[style.navItem, style.navSmItem]} >
             <ParticipantsIconButton />
+  
           </View>
+   
 
           <RenderSeparator />
           <View style={[style.navItem, style.navSmItem]}>
@@ -778,6 +790,19 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     paddingVertical: 10,
+  },
+  tooltip: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    padding: 10,
+    borderRadius: 5,
+    top: '100%', // Adjust this value to position the tooltip correctly
+    left: '50%', // Adjust this value to position the tooltip correctly
+    transform: [{ translateX: -50 }], // Center the tooltip horizontally
+  },
+  tooltipText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 

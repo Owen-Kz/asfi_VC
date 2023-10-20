@@ -1,6 +1,6 @@
 let MeetingSecret = window.parent.document.querySelector('[data-testid="meetingSecret"]')
 const encryptionSecret = MeetingSecret.value; // Replace with your actual value
-alert("JOHN ston")
+
 
 const hoursToKeep = 1;  // Desired duration in hours
 const daysToKeep = hoursToKeep / 24;  // Convert hours to days

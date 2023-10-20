@@ -41,8 +41,7 @@ const PosterDeckView  = () => {
           height="500px"
         />
       </View>
-        {/* <DeckItem /> */}
-  
+        {/* <DeckItem /> */}  
 
         {/* Repeat the above structure for other posters */}
       </View>

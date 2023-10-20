@@ -144,7 +144,7 @@ const ParticipantView = () => {
           </View>
         )}
       </ScrollView>
-
+{/* 
       <View
         style={{
           width: '100%',
@@ -155,7 +155,7 @@ const ParticipantView = () => {
           justifyContent: 'center',
         }}>
         <CopyJoinInfo showText={true} />
-      </View>
+      </View> */}
     </View>
   );
 };
