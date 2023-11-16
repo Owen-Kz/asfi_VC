@@ -82,7 +82,7 @@ const style = StyleSheet.create({
   navSmItem: {
     flexGrow: 0,
     flexShrink: 0,
-    flexBasis: '15%',
+    flexBasis: '8%',
   },
   main: {
     width: '50%',

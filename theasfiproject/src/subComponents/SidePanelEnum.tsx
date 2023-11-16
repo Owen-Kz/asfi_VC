@@ -4,5 +4,6 @@ export enum SidePanelType {
   Participants,
   Chat,
   Settings,
-  PosterDecks
+  PosterDecks,
+  Polls
 }

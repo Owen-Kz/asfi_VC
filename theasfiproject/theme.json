@@ -58,16 +58,16 @@
   },
   "navHolder": {
     "width": "100%",
-    "height": "6%",
+    "height": "9%",
     "minHeight": 40,
     "backgroundColor": "#f1f4f9",
     "flexDirection": "row",
     "alignItems": "center",
-    "justifyContent": "flex-end"
+    "justifyContent": "space-between"
   },
   "controlsHolder": {
-    "minHeight": 80,
-    "maxHeight": "8%",
+    "minHeight": 50,
+    "maxHeight": "10%",
     "backgroundColor": "#f1f4f9",
     "flexDirection": "row",
     "justifyContent": "space-evenly",
@@ -78,16 +78,16 @@
   "localButton": {
     "backgroundColor": "#fff",
     "borderRadius": 23,
-    "width": 40,
-    "height": 40,
+    "width": 10,
+    "height": 10,
     "display": "flex",
     "alignSelf": "center",
     "alignItems": "center",
     "justifyContent": "center"
   },
   "buttonIcon": {
-    "width": "70%",
-    "height": "70%",
+    "width": "40%",
+    "height": "40%",
     "tintColor": "#00AEFC"
   }
 }

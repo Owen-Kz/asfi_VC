@@ -57,9 +57,9 @@ const RenderSeparator = () => {
   const {getDimensionData} = useContext(DimensionContext);
   const {isDesktop} = getDimensionData();
   return isWebInternal() && isDesktop ? (
-    <View style={style.navItem}>
+
       <View style={style.navItemSeparator}></View>
-    </View>
+ 
   ) : (
     <View style={{marginHorizontal: 2}}></View>
   );
@@ -233,14 +233,82 @@ const PosterDeckButton = (props: PosterDeckButtonProps) => {
               icon={icons['exclamationIcon']}
               color={$config.SECONDARY_FONT_COLOR}
             />
+              
           </View>
         </View>
       )}
     </>
   );
 };
-
 // END POSTER DECK BUTTON
+
+
+// POLLS ICON 
+
+interface PollsButtonProps {
+  liveStreamingRequestAlertIconPosition?: {
+    top?: number;
+    right?: number;
+    left?: number;
+    bottom?: number;
+  };
+  buttonTemplateName?: ButtonTemplateName;
+  render?: (
+    onPress: () => void,
+    isPanelActive: boolean,
+    buttonTemplateName?: ButtonTemplateName,
+  ) => JSX.Element;
+}
+
+const PollsButton = (props: PollsButtonProps) => {
+  const {
+    liveStreamingRequestAlertIconPosition = {
+      top: isWebInternal() ? -10 : 2,
+      left: undefined,
+      right: undefined,
+      bottom: undefined,
+    },
+  } = props;
+  const {sidePanel, setSidePanel} = useSidePanel();
+  const {isPendingRequestToReview, setLastCheckedRequestTimestamp} =
+    useContext(LiveStreamContext);
+  //commented for v1 release
+  //const participantsLabel = useString('participantsLabel')();
+  const participantsLabel = 'Polls';
+  const defaultTemplateValue = useButtonTemplate().buttonTemplateName;
+  const {buttonTemplateName = defaultTemplateValue} = props;
+  const isPanelActive = sidePanel === SidePanelType.Polls;
+  const onPress = () => {
+    isPanelActive
+      ? setSidePanel(SidePanelType.None)
+      : setSidePanel(SidePanelType.Polls);
+  
+    setLastCheckedRequestTimestamp(new Date().getTime());
+  };
+  let btnTemplateProps: BtnTemplateInterface = {
+    onPress: onPress,
+    name: isPanelActive ? 'PollsIconFilled' : 'pollsIcon',
+  };
+  if (buttonTemplateName === ButtonTemplateName.bottomBar) {
+    btnTemplateProps.btnText = participantsLabel;
+    btnTemplateProps.style = Styles.localButtonWithoutBG as Object;
+  } else {
+    btnTemplateProps.style = style.btnHolder;
+  }
+
+  return props?.render ? (
+    props.render(onPress, isPanelActive, buttonTemplateName)
+  ) : (
+    <>
+      <BtnTemplate {...btnTemplateProps} />
+    
+    </>
+  );
+};
+
+
+// END POLLS ICON 
+
 
 
 interface ChatIconButtonProps {
@@ -564,24 +632,35 @@ const Navbar = () => {
                   : 200,
             },
           ]}>
-          <ParticipantsCountView />
+
+            <ParticipantsCountView />
           <View style={[style.navItem, style.navSmItem]} >
             <ParticipantsIconButton />
-  
+            <Text>
+            Participants</Text>
+          </View>
+
+          <RenderSeparator />
+          <View style={[style.navItem, style.navSmItem]} >
+            <PollsButton />
+            <Text>
+            Polls</Text>
           </View>
    
 
           <RenderSeparator />
           <View style={[style.navItem, style.navSmItem]}>
           <PosterDeckButton />
+          <Text>Posters</Text>
+         
           </View>
-
         
           {$config.CHAT ? (
             <>
               <RenderSeparator />
               <View style={[style.navItem, style.navSmItem]}>
                 <ChatIconButton />
+                <Text>Chats</Text>
               </View>
             </>
           ) : (
@@ -602,12 +681,15 @@ const Navbar = () => {
                  * */
                 collapsable={false}>
                 <LayoutIconButton />
+                <Text>Layout</Text>
               </View>
             </>
           )}
+
           <RenderSeparator />
-        
+  
           <SettingsIconButtonWithWrapper />
+
         </View>
       </View>
     </View>
@@ -731,38 +813,43 @@ const style = StyleSheet.create({
     color: $config.SECONDARY_FONT_COLOR,
   },
   navControlBar: {
-    width: '50%',
+    width: '80%',
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    // backgroundColor:'red',
     zIndex: 9,
   },
   navContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: isWebInternal()
-      ? $config.SECONDARY_FONT_COLOR
-      : $config.SECONDARY_FONT_COLOR + '00',
+    // backgroundColor:'yellow',
+    // backgroundColor: isWebInternal()
+    //   ? $config.SECONDARY_FONT_COLOR
+    //   : $config.SECONDARY_FONT_COLOR + '00',
     paddingVertical: 4,
     paddingHorizontal: isMobileOrTablet() ? 0 : 10,
-    minHeight: 35,
+    minHeight: 30,
+    width:'60%',
     borderRadius: 10,
   },
   navItem: {
-    height: '100%',
+    height: '90%',
     alignItems: 'center',
+    // backgroundColor:'green',
     position: 'relative',
   },
   navSmItem: {
     flexGrow: 0,
     flexShrink: 0,
-    flexBasis: '15%',
+    flexBasis: '5%',
+    // backgroundColor:'orange'
   },
   navItemSeparator: {
     backgroundColor: $config.PRIMARY_FONT_COLOR + '80',
     width: 1,
     height: '100%',
-    marginHorizontal: 10,
+    marginHorizontal: 2,
     alignSelf: 'center',
     opacity: 0.8,
   },
@@ -770,7 +857,7 @@ const style = StyleSheet.create({
     backgroundColor: $config.PRIMARY_FONT_COLOR + '80',
     width: '100%',
     height: 1,
-    marginVertical: 10,
+    marginVertical: 2,
     alignSelf: 'center',
     opacity: 0.8,
   },

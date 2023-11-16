@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar';
 import ParticipantsView from '../../components/ParticipantsView';
 import SettingsView from '../../components/SettingsView';
 import PosterDeckView from '../../components/PosterDeckView';
+
 import Controls from '../../components/Controls';
 import Chat from '../../components/Chat';
 import {SidePanelType} from '../../subComponents/SidePanelEnum';
@@ -19,6 +20,7 @@ import {
 import SDKEvents from '../../utils/SdkEvents';
 import {useMeetingInfo} from '../../components/meeting-info/useMeetingInfo';
 import {useRtc} from 'customization-api';
+import PollsView from '../../components/PollsView';
 
 const VideoCallScreen = () => {
   const {sidePanel} = useSidePanel();
@@ -215,6 +217,9 @@ const VideoCallScreen = () => {
       />
     </View>
           {sidePanel === SidePanelType.PosterDecks ? <PosterDeckView /> : <></>}
+
+          {sidePanel === SidePanelType.Polls ? <PollsView /> : <></>}
+
           
           {sidePanel === SidePanelType.Settings ? <SettingsComponent /> : <></>}
         </View>
