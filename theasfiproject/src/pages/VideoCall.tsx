@@ -179,7 +179,7 @@ const VideoCall: React.FC = () => {
       setTimeout(() => {
         SDKEvents.emit('leave');
         history.push('/endingCall');
-        window.location.href = 'https://asfi-demo-app-2cbea9ef1c2f.herokuapp.com/';
+        window.location.href = 'https://asfischolar.org';
       }, 0),
   };
 
