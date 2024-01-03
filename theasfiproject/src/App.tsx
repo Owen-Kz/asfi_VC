@@ -32,7 +32,7 @@ import {
 } from './components/meeting-info/useMeetingInfo';
 import {SetMeetingInfoProvider} from './components/meeting-info/useSetMeetingInfo';
 import {ShareLinkProvider} from './components/useShareLink';
-import { RetrievePosterDecksTable } from './pages/video-call/poster-decks-logic/routes/queries.js';
+// import { RetrievePosterDecksTable } from './pages/video-call/poster-decks-logic/routes/queries.js';
 import GetPosterDecks from './components/GetPosterDecks';
 
 //hook can't be used in the outside react function calls. so directly checking the platform.

@@ -22,7 +22,7 @@ export default function Logo() {
   return (
     <TouchableOpacity onPress={() => history.replace('/')} style={styles.marginAuto}>
       <Image
-        source={{uri: $config.LOGO}}
+        source={{uri: "https://dl-prod.rteappbuilder.com/74eb5d2c70abecb166a7/cma69kkf8pds9babsuh0.png"}}
         style={styles.logo}
         resizeMode="contain"
       />

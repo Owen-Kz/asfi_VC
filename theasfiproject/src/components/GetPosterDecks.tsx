@@ -16,7 +16,7 @@ import {Text} from 'react-native';
 import useMount from './useMount';
 
 import {useString} from '../utils/useString';
-import { RetrievePosterDecksTable } from 'src/pages/video-call/poster-decks-logic/routes/queries';
+// import { RetrievePosterDecksTable } from 'src/pages/video-call/poster-decks-logic/routes/queries';
 
 
 const GetPosterDecks = () => {
