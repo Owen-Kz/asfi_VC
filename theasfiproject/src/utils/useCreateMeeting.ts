@@ -41,7 +41,7 @@ export default function useCreateMeeting() {
     const res = await createChannel({
       variables: {
         title: roomTitle,
-        backendURL: $config.BACKEND_ENDPOINT,
+        backendURL: "https://secret-island-15964-cdccfee267c2.herokuapp.com",
         enablePSTN: enablePSTN,
       },
     });

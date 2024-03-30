@@ -34,7 +34,7 @@
 "ICON":"https://dl-prod.rteappbuilder.com/74eb5d2c70abecb166a7/cmabidkf8pds9babsv6g.png",
 "PRIMARY_COLOR":"#21122E",
 "FRONTEND_ENDPOINT":"",
-"BACKEND_ENDPOINT":"https://secret-island-15964-cdccfee267c2.herokuapp.com/",
+"BACKEND_ENDPOINT":"https://secret-island-15964-cdccfee267c2.herokuapp.com",
 "PSTN":false,
 "PRECALL":true,
 "CHAT":true,
