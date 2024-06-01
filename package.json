@@ -1,1 +1,23 @@
-{"dependencies":{"agora-app-builder-cli":"3.0.19"},"keywords":[],"license":"MIT","name":"agora-app-builder","scripts":{"start":"agora-app-builder-cli","start:info":"agora-app-builder-cli --info"},"version":"1.0.0"}
+{
+  "name": "agora-app-builder",
+  "version": "1.0.0",
+  "engines": {
+    "node": "16"
+  },
+  "scripts": {
+    "start": "agora-app-builder-cli",
+    "start:info": "agora-app-builder-cli --info"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.17.19",
+    "agora-app-builder-cli": "^2.0.11",
+    "blob": "^0.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "react-native-video-recorder": "^0.2.0",
+    "url": "^0.11.3"
+  }
+}
